@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>nuevo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+
+        <f:view>
+
+
+            <h:form>
+
+                <h1><h:outputText value="#{iC.titulo}"/></h1>
+                <h:panelGrid columns="2">
+
+
+
+
+
+                    <p:outputLabel value="Gasto:" for="gas" />
+                    <p:inputText id="gas" value="#{gC.gasto.gas}" title="Gas" required="true" requiredMessage="The Gas field is required."/>
+                    <p:outputLabel value="Val:" for="val" />
+                    <p:spinner id="val" value="#{gC.gasto.val}" title="Val"  prefix="$" min="0"/>
+                    <p:outputLabel value="Fec:" for="fec" />
+                    <p:calendar id="fec" value="#{gC.gasto.fec}" pattern="dd/MM/yyyy" showOn="button" />
+                    <p:outputLabel value="FkIdUsu:" for="fkIdUsu" />
+                    <p:selectOneMenu id="fkIdUsu" value="#{gC.nombreUsuario}" required="true" requiredMessage="The FkIdUsu field is required.">
+                        <!-- TODO: update below reference to list of available items-->
+                        <f:selectItems value="#{gC.listaUsarios}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="FkIdCat:" for="fkIdCat" />
+                    <p:selectOneMenu id="fkIdCat" value="#{gC.nombreCategoria}" required="true" requiredMessage="The FkIdCat field is required.">
+                        <!-- TODO: update below reference to list of available items-->
+                        <f:selectItems value="#{gC.listaCats}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:commandButton   id="editar" icon="ui-icon-disk" value="Guardar" onclick="PF('dlgNuevo').hide()" action="#{gC.doGuardar}"  />
+
+                &nbsp;
+                <p:commandButton icon="ui-icon-cancel" value="Cancelar" onclick="PF('dlgNuevo').hide()" immediate="true" />
+
+            </h:form>
+
+
+        </f:view>
+
+
+    </h:body>
+
+</html>
+

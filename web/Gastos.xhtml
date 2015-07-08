@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:view>
+
+
+            <h:form id="lista">
+
+                <fieldset>
+                    <fieldset>
+                        <legend>Busqueda</legend>
+                        <h:panelGrid columns="2" id="pane">                  
+
+                            <p:outputLabel for="filtro" value="Descripcion"/>
+                            <p:inputText id="filtro" value="#{gC.descripcion }" placeholder="Buscar" type="search">
+                                <f:ajax render="tabla" event="keyup" listener="#{gC.doBuscarGasto(e)}"></f:ajax>
+                            </p:inputText> 
+
+
+                            <p:outputLabel for="fkIdCat" value="Categoria" />
+                            <p:selectOneMenu id="fkIdCat" value="#{gC.nombreCategoria}"   required="false" requiredMessage="The FkIdCat field is required." >
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:ajax render="tabla" event="valueChange" listener="#{gC.doBuscarCate(e)}"></f:ajax>
+                                <f:selectItems value ="#{gC.listaCats}"/>
+                                <f:selectItem itemValue="" itemLabel="--TODAS --" />
+                             
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="Fecha Desde" />
+                            <p:calendar id="fec_des" value="#{gC.fecDesde}" pattern="dd/MM/yyyy" />
+
+                            
+                            <p:outputLabel  value="Hasta" />
+                            <p:calendar id="fec_hasta" value="#{gC.fecHasta}" pattern="dd/MM/yyyy"      />
+
+
+                        </h:panelGrid>
+
+
+
+
+
+                    </fieldset>
+
+
+
+
+
+
+
+                    <p:dataList id="tabla" value="#{gC.listaGastos}" type="definition" var="item"  paginator="true" rows="10" styleClass="paginated">
+                        <f:facet name="header">
+                            Lista de Gastos
+                        </f:facet>
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                            <p:graphicImage title="#{item.fkIdUsu.usu}"  value="/recursos/#{item.fkIdUsu.usu}.png"  width="64"  height="64"/> 
+                            <p:outputPanel>
+
+                                <h:outputText value="#{item.gas},#{item.fkIdCat.cat} $ #{item.val}  " style="display:inline-block"/>
+                                <br/>
+                                <h:outputText value="#{item.fec}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:outputPanel>
+                            <br/>
+                            <p:outputPanel>
+                                <p:column style="margin-top:20px" >
+                                    <p:commandButton value="Editar"   id="editar"   icon= "ui-icon-note"   action="#{gC.doEditar(item)}" oncomplete="PF('dlgNuevo').show()" immediate="true" update="@form :formn" />
+                                    &nbsp;
+                                    <p:commandButton value="Eliminar"  id="borrar"  icon= "ui-icon-trash"  action="#{gC.doEliminanr(item)}" immediate="true"  update="@this"  />
+                                </p:column>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                        <f:facet name="footer">
+                            Total Gastos $ #{gC.totalGastos} 
+                        </f:facet>
+                    </p:dataList>
+
+                    <br/>
+                    <p:commandButton   id="nuevo"  value="Nuevo Gasto" icon="ui-icon-note"  action="#{gC.doNuevo}" oncomplete="PF('dlgNuevo').show()"  immediate="true" update="@form :formn" />
+
+                </fieldset>
+
+
+            </h:form>
+
+
+
+        </f:view>
+
+    </h:body>
+
+
+</html>
+
